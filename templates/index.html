@@ -27,15 +27,20 @@
     </head>
 
     <body>
-
-        
-     
         <div class="container-fluid ">
             <div class="row">
-                <div class="col-12">
-                    <h1>
+                <!-- toolbar -->
+                <div class="col-6 d-flex">
+                    {% for url,printable_name in links %}
+                        <a href="{{url}}" class="badge badge-primary margin-auto" target="_blank">{{printable_name}}</a>
+                    {% endfor %}
+                </div>
+                <div class="col-6">
+                    <h1 class="text-right">
                         OGC API Demo (Daraa)
                     </h1>
+                </div>
+                <div class="col-12">
                     <hr>
                 </div>
             </div>
@@ -54,7 +59,6 @@
 
             <div class="row">
                 <div class="col-4">
-                    <div class="col-12">
                         <div class="card">
                             <div class="card-header">
                                 Get items by collection ID
@@ -78,7 +82,6 @@
                                 <button id="collentionItemsJsonOutput" type="button" disabled class="btn btn-primary" data-toggle="modal" data-target="#getCollectionItemsModal">Show JSON output</button>
                             </div>
                         </div>
-                    </div>
                 </div>
 
                 <div class="col-4">
@@ -328,7 +331,8 @@
             scrollWheelZoom: false,
           }).setView([41.651454948560136, -0.8817493915557862], 4);
 		// Get map tiles from localhost or OSM
-		L.tileLayer('http://3.143.92.80/tileserver/{z}/{x}/{y}.png', {
+		// L.tileLayer('http://3.143.92.80/tileserver/{z}/{x}/{y}.png', {
+		L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
 			attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="https://novadevs.com">Novadevs</a>'
 		}).addTo(map);

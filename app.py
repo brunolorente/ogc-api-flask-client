@@ -1,25 +1,29 @@
-from flask import Flask, jsonify, render_template, request, url_for
-from pprint import pprint
-
-import json
-import time
-
 import openapi_client
 from openapi_client.rest import ApiException
 
-
+import json
+import time
 import requests
+from pprint import pprint
 
+from flask import Flask, jsonify, render_template, request, url_for
+app = Flask(__name__)
 configuration = openapi_client.Configuration()
 
-app = Flask(__name__)
+# Daraa useful links
+useful_links = [
+    ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa?f=json','Landing page'),
+    ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa/api?f=json','Api definition'),
+    ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa/conformance?f=json','Conformance classes'),
+    ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa/collections','Collections'),
+]
 
 @app.route('/')
 def index():
     if not request.root_url:
         # this assumes that the 'index' view function handles the path '/'
         request.root_url = url_for('index', _external=True)
-    return render_template('index.html')
+    return render_template('index.html', links=useful_links)
 
 @app.route('/collections/<collectionId>/items/')
 def get_features(collectionId):
