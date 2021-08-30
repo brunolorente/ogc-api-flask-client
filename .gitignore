@@ -1,0 +1,7 @@
+# Virtualenv related
+bin/
+include/
+pip-selfcheck.json
+__pycache__
+pyvenv.cfg
+lib

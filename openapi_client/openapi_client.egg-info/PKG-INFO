@@ -1,0 +1,12 @@
+Metadata-Version: 1.0
+Name: openapi-client
+Version: 1.0.0
+Summary: Daraa
+Home-page: UNKNOWN
+Author: UNKNOWN
+Author-email: mgalluch@cubewerx.com
+License: UNKNOWN
+Description:     This data store is offered by CubeWerx Inc. as a demonstration of its in-progress OGC API implementation.  # noqa: E501
+            
+Keywords: OpenAPI,OpenAPI-Generator,Daraa
+Platform: UNKNOWN
