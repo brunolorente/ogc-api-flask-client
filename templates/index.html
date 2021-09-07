@@ -91,12 +91,6 @@
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <div class="col-12">
-                                    <label for="collectionBbox">Bbox</label>
-                                    <input ype="text" name="collectionBbox" id="collectionBbox" class="form-control" value="" placeholder="{{default_bbox}}">
-                                </div>
-                            </div>
-                            <div class="row form-group">
                                 <div class="col-6">
                                     <label for="queryableName">Queriable</label>
                                     <input ype="text" name="queryableName" id="queryableName" class="form-control" value="" placeholder="">
@@ -246,6 +240,8 @@
                 }
                 var limit = $('input[name="limit"]').val();
                 var bboxVal = $('#collectionBbox').val();
+                var queryableNameValue = $('#queryableName').val();
+                var queryableValue = $('#queryableValue').val();
 
                 var $this = $(this);
                 var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> Loading...';
@@ -258,7 +254,8 @@
                 $.getJSON($SCRIPT_ROOT + '/collections/' +collId+ '/items/', {
                     collectionId: collId,
                     l: limit,
-                    bbox: bboxVal,
+                    queriable_name: queryableNameValue,
+                    queriable_value: queryableValue,
                 }, function(data) {
                     if (data[0] == "error") {
                         alert(data[1]);
