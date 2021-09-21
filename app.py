@@ -10,6 +10,8 @@ from flask import Flask, jsonify, render_template, request, url_for
 app = Flask(__name__)
 configuration = openapi_client.Configuration()
 
+TILESERVER_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+
 # Daraa useful links
 useful_links = [
     ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa?f=json','Landing page'),
