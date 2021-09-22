@@ -25,7 +25,7 @@ def index():
     if not request.root_url:
         # this assumes that the 'index' view function handles the path '/'
         request.root_url = url_for('index', _external=True)
-    return render_template('index.html', links=useful_links)
+    return render_template('index.html', links=useful_links, tileserver=TILESERVER_URL)
 
 @app.route('/collections/<collectionId>/items/')
 def get_features(collectionId):
