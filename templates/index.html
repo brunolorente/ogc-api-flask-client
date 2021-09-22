@@ -52,6 +52,7 @@
             </div>
 
             <div class="row">
+                <!-- links -->
                 <div class="col-4 d-flex align-items-stretch">
                     <div class="card w-100">
                         <div class="card-header">
@@ -71,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- collections -->
                 <div class="col-4  d-flex align-items-stretch">
                     <div class="card  w-100">
                         <div class="card-header">
@@ -93,7 +94,15 @@
                             <div class="row form-group">
                                 <div class="col-6">
                                     <label for="queryableName">Queriable</label>
-                                    <input ype="text" name="queryableName" id="queryableName" class="form-control" value="" placeholder="">
+                                    <!-- <input ype="text" name="queryableName" id="queryableName" class="form-control" value="" placeholder=""> -->
+                                    <select name="queryableName" id="queryableName" class="form-control">
+                                        <option value=""></option>
+                                        <option value="properties">Property name</option>
+                                        <option value="crs">CRS</option>
+                                        <option value="lat">Latitude</option>
+                                        <option value="lon">Longitude</option>
+                                        <option value="radius">Radius</option>
+                                    </select>
                                 </div>
                                 <div class="col-6">
                                     <label for="queryableValue">Queriable value</label>
@@ -106,30 +115,31 @@
                             <button id="collentionItemsJsonOutput" type="button" disabled class="btn btn-primary" data-toggle="modal" data-target="#getCollectionItemsModal">Show JSON output</button>
                         </div>
                     </div>
-            </div>
-
-            <div class="col-4  d-flex align-items-stretch">
-                <div class="card  w-100">
-                    <div class="card-header">
-                        Get item by collection ID and item ID
-                    </div>
-                    <div class="card-body">
-                        <div class="row form-group">
-                            <div class="col-12">
-                                <label for="collectionIdFilter">Feature collection ID*</label>
-                                <input disabled type="text" name="collectionIdFilter" required id="collectionIdFilter" class="form-control" value="" placeholder="{{default_collection_id}}">
+                </div>
+                <!-- item -->
+                <div class="col-4  d-flex align-items-stretch">
+                    <div class="card  w-100">
+                        <div class="card-header">
+                            Get item by collection ID and item ID
+                        </div>
+                        <div class="card-body">
+                            <div class="row form-group">
+                                <div class="col-12">
+                                    <label for="collectionIdFilter">Feature collection ID*</label>
+                                    <input disabled type="text" name="collectionIdFilter" required id="collectionIdFilter" class="form-control" value="" placeholder="{{default_collection_id}}">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-12">
+                                    <label for="elementId">Element ID*</label>
+                                    <input disabled ype="text" name="elementId" required id="elementId" class="form-control" value="" placeholder="{{default_element_id}}">
+                                </div>
                             </div>
                         </div>
-                        <div class="row form-group">
-                            <div class="col-12">
-                                <label for="elementId">Element ID*</label>
-                                <input disabled ype="text" name="elementId" required id="elementId" class="form-control" value="" placeholder="{{default_element_id}}">
-                            </div>
+                        <div class="card-footer text-muted">
+                            <button disabled id="getCollectionItem" class="btn btn-primary">Get item</button>
+                            <button disabled  id="collentionItemJsonOutput" type="button" disabled class="btn btn-primary" data-toggle="modal" data-target="#getCollectionItemModal">Show JSON output</button>
                         </div>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <button disabled id="getCollectionItem" class="btn btn-primary">Get item</button>
-                        <button disabled  id="collentionItemJsonOutput" type="button" disabled class="btn btn-primary" data-toggle="modal" data-target="#getCollectionItemModal">Show JSON output</button>
                     </div>
                 </div>
             </div>
@@ -264,8 +274,8 @@
                 }
                 var limit = $('input[name="limit"]').val();
                 var bboxVal = $('#collectionBbox').val();
-                var queryableNameValue = $('#queryableName').val();
-                var queryableValue = $('#queryableValue').val();
+                var queryableNameValue = $('select[name="queryableName"]').children("option:selected").val();
+                var queryableValue = $('input[name="queryableValue"]').val();
 
                 var $this = $(this);
                 var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> Loading...';
