@@ -82,7 +82,13 @@
                             <div class="row form-group">
                                 <div class="col-12">
                                     <label for="collectionId">Feature collection ID*</label>
-                                    <input type="text" name="collectionId" required id="collectionId" class="form-control" value="" placeholder="{{default_collection_id}}">
+                                    <!-- <input type="text" name="collectionId" required id="collectionId" class="form-control" value="" placeholder="{{default_collection_id}}"> -->
+                                    <select name="collectionId" required id="collectionId" class="form-control">
+                                        <option value=""></option>
+                                        {%for collection in collections %}
+                                            <option value="{{collection.id}}">{{collection.name}}</option>
+                                        {%endfor%}
+                                    </select>
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -92,20 +98,13 @@
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <div class="col-6">
-                                    <label for="queryableName">Queriable</label>
-                                    <input ype="text" name="queryableName" id="queryableName" class="form-control" value="" placeholder="">
-                                    <!-- <select name="queryableName" id="queryableName" class="form-control">
-                                        <option value=""></option>
-                                        <option value="properties">Property name</option>
-                                        <option value="crs">CRS</option>
-                                        <option value="lat">Latitude</option>
-                                        <option value="lon">Longitude</option>
-                                        <option value="radius">Radius</option>
-                                    </select> -->
+                                <div class="col-6" id="queryablesContainer">
+                                    <label for="queryableName">Queryable</label>
+                                    <select name="queryableName" id="queryableName" class="form-control">
+                                    </select>
                                 </div>
                                 <div class="col-6">
-                                    <label for="queryableValue">Queriable value</label>
+                                    <label for="queryableValue">Queryable value</label>
                                     <input ype="text" name="queryableValue" id="queryableValue" class="form-control" value="" placeholder="">
                                 </div>
                             </div>
@@ -230,6 +229,10 @@
         <!-- Document root -->
         <script>
             $SCRIPT_ROOT = {{request.root_url|tojson|safe}};
+            $COLLECTIONS =  {{collections|tojson|safe}};
+            $QUERYABLES =  {{queryables|tojson|safe}};
+            console.log($QUERYABLES);
+            console.log($COLLECTIONS);
         </script>
         
         <!-- Colletion items JS -->
@@ -264,7 +267,8 @@
              * @returns {JSON}|{boolean}
              */
             function getCollectionItemsList(){
-                var collId = $('input[name="collectionId"]').val();
+                // var collId = $('input[name="collectionId"]').val();
+                var collId = document.getElementById("collectionId").value;
                 if (collId.length == 0) {
                     $('input[name="collectionId"]').addClass('border-danger')
                     $('input[name="collectionId"]').on('input', function(){
@@ -274,9 +278,6 @@
                 }
                 var limit = $('input[name="limit"]').val();
                 var bboxVal = $('#collectionBbox').val();
-                // var queryableNameValue = $('select[name="queryableName"]').children("option:selected").val();
-                var queryableNameValue = $('input[name="queryableName"]').val();
-                var queryableValue = $('input[name="queryableValue"]').val();
 
                 var $this = $(this);
                 var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> Loading...';
@@ -289,8 +290,9 @@
                 $.getJSON($SCRIPT_ROOT + '/collections/' +collId+ '/items/', {
                     collectionId: collId,
                     l: limit,
-                    queriable_name: queryableNameValue,
-                    queriable_value: queryableValue,
+                    bbox: bboxVal,
+                    queryableName: $('#queryableName').val(),
+                    queryableValue: $('input[name="queryableValue"]').val(),
                 }, function(data) {
                     if (data[0] == "error") {
                         alert(data[1]);

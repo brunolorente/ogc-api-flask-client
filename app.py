@@ -1,5 +1,6 @@
 import openapi_client
 from openapi_client.rest import ApiException
+from helpers import get_useful_links, get_api_name, get_collections, get_queriables
 
 import json
 import time
@@ -10,15 +11,14 @@ from flask import Flask, jsonify, render_template, request, url_for
 app = Flask(__name__)
 configuration = openapi_client.Configuration()
 
-TILESERVER_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+API_BASE_URL = 'https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa'
 
-# Daraa useful links
-USEFUL_LINKS = [
-    ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa?f=json','Landing page'),
-    ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa/api?f=json','Api definition'),
-    ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa/conformance?f=json','Conformance classes'),
-    ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa/collections','Collections'),
-]
+API_NAME = get_api_name(API_BASE_URL)
+USEFUL_LINKS = get_useful_links(API_BASE_URL)
+COLLECTIONS_IN_API = get_collections(API_BASE_URL)
+QUERYABLES_IN_API = get_queriables(API_BASE_URL)
+
+TILESERVER_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
 
 @app.route('/')
 def index():
@@ -28,7 +28,10 @@ def index():
     return render_template(
         'index.html', 
         links=USEFUL_LINKS, 
-        tileserver=TILESERVER_URL)
+        tileserver=TILESERVER_URL,
+        collections = COLLECTIONS_IN_API,
+        queryables = QUERYABLES_IN_API
+    )
 
 @app.route('/collections/<collectionId>/items/')
 def get_features(collectionId):
