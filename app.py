@@ -13,7 +13,7 @@ configuration = openapi_client.Configuration()
 TILESERVER_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
 
 # Daraa useful links
-useful_links = [
+USEFUL_LINKS = [
     ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa?f=json','Landing page'),
     ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa/api?f=json','Api definition'),
     ('https://test.cubewerx.com/cubewerx/cubeserv/demo/ogcapi/Daraa/conformance?f=json','Conformance classes'),
@@ -25,7 +25,10 @@ def index():
     if not request.root_url:
         # this assumes that the 'index' view function handles the path '/'
         request.root_url = url_for('index', _external=True)
-    return render_template('index.html', links=useful_links, tileserver=TILESERVER_URL)
+    return render_template(
+        'index.html', 
+        links=USEFUL_LINKS, 
+        tileserver=TILESERVER_URL)
 
 @app.route('/collections/<collectionId>/items/')
 def get_features(collectionId):

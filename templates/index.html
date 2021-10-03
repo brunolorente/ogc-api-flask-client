@@ -94,15 +94,15 @@
                             <div class="row form-group">
                                 <div class="col-6">
                                     <label for="queryableName">Queriable</label>
-                                    <!-- <input ype="text" name="queryableName" id="queryableName" class="form-control" value="" placeholder=""> -->
-                                    <select name="queryableName" id="queryableName" class="form-control">
+                                    <input ype="text" name="queryableName" id="queryableName" class="form-control" value="" placeholder="">
+                                    <!-- <select name="queryableName" id="queryableName" class="form-control">
                                         <option value=""></option>
                                         <option value="properties">Property name</option>
                                         <option value="crs">CRS</option>
                                         <option value="lat">Latitude</option>
                                         <option value="lon">Longitude</option>
                                         <option value="radius">Radius</option>
-                                    </select>
+                                    </select> -->
                                 </div>
                                 <div class="col-6">
                                     <label for="queryableValue">Queriable value</label>
@@ -274,7 +274,8 @@
                 }
                 var limit = $('input[name="limit"]').val();
                 var bboxVal = $('#collectionBbox').val();
-                var queryableNameValue = $('select[name="queryableName"]').children("option:selected").val();
+                // var queryableNameValue = $('select[name="queryableName"]').children("option:selected").val();
+                var queryableNameValue = $('input[name="queryableName"]').val();
                 var queryableValue = $('input[name="queryableValue"]').val();
 
                 var $this = $(this);
@@ -639,6 +640,24 @@
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="https://novadevs.com">Novadevs</a>'
             }).addTo(map);
+
+            function refreshMap()
+            {
+                polygons = polygons.splice(0,polygons.length);
+                points = points.splice(0,points.length);
+
+                var container = L.DomUtil.get('mapid');
+                container._leaflet_id = null;
+
+                var map = L.map('mapid', {
+                    scrollWheelZoom: false,
+                }).setView([41.651454948560136, -0.8817493915557862], 4);
+                    var tilesFrom = "{{tileserver}}"
+                    L.tileLayer(tilesFrom, {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="https://novadevs.com">Novadevs</a>'
+                }).addTo(map);
+            }
         </script>
 
         <!-- Useful links JS -->
@@ -687,8 +706,9 @@
              */
              function showJSONOutputAuto(data, target, modal) {
                 // Put beautified json
-                $(modal).text(data.id)
+                $(modal).text(data.id);
                 $(target).empty().simpleJson({ jsonObject: data });
+                $(modal).modal();
             }
         </script>
     </body>
